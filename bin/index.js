@@ -1,4 +1,6 @@
 #!/usr/bin/env node
-const { build } = require("../build");
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { build } = require('../build');
 
 build();

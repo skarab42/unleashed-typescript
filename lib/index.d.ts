@@ -1,3 +1,3 @@
-import ts from "../unleashed-typescript/typescript";
+import ts from '../unleashed-typescript/typescript';
 
 export = ts;
