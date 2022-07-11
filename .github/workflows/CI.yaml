@@ -26,7 +26,6 @@ jobs:
           version: 6.32.1
       - run: pnpm install
       - run: pnpm add typescript@${{ matrix.typescript }}
-      - run: pnpm build
       - run: pnpm test
 
   publish:
