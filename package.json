@@ -30,7 +30,7 @@
     "check": "tsc --noEmit",
     "dev": "ts-node src/index.ts",
     "prepare": "npx simple-git-hooks",
-    "postinstall": "unleashed-typescript",
+    "postinstall": "node ./bin/index.js",
     "semantic-release": "semantic-release --branches main",
     "format": "prettier . --write --ignore-path .gitignore",
     "lint": "eslint . --fix --ext .js,.cjs,.ts --ignore-path .gitignore",
