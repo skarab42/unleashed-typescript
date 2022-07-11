@@ -33,7 +33,7 @@
     "postinstall": "node ./bin/index.js",
     "semantic-release": "semantic-release --branches main",
     "format": "prettier . --write --ignore-path .gitignore",
-    "lint": "eslint . --fix --ext .js,.cjs,.ts --ignore-path .gitignore",
+    "lint": "eslint ./src --fix --ext .js,.cjs,.ts --ignore-path .gitignore",
     "test": "pnpm check && pnpm lint -- --max-warnings=0"
   },
   "devDependencies": {
