@@ -1,0 +1,47 @@
+{
+  "name": "unleashed-typescript",
+  "version": "1.0.0",
+  "description": "TypeScript with exposed internal definitions and some private methods for type checking.",
+  "author": {
+    "name": "skarab42",
+    "email": "contact@skarab42.dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skarab42/unleashed-typescript.git"
+  },
+  "homepage": "https://github.com/skarab42/unleashed-typescript",
+  "bugs": "https://github.com/skarab42/unleashed-typescript/issues",
+  "funding": "https://github.com/sponsors/skarab42",
+  "license": "MIT",
+  "private": false,
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "bin": {
+    "unleashed-typescript": "./bin/index.js"
+  },
+  "files": [
+    "bin",
+    "build",
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "check": "tsc --noEmit",
+    "dev": "ts-node src/index.ts",
+    "postinstall": "unleashed-typescript"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/node": "^18.0.3",
+    "fs-extra": "^10.1.0",
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "tsup": "^6.1.3"
+  }
+}
