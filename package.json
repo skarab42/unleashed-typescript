@@ -1,6 +1,6 @@
 {
   "name": "unleashed-typescript",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "TypeScript with exposed internal definitions and some private methods for type checking.",
   "author": {
     "name": "skarab42",
@@ -31,6 +31,7 @@
     "dev": "ts-node src/index.ts",
     "prepare": "npx simple-git-hooks",
     "postinstall": "unleashed-typescript",
+    "semantic-release": "semantic-release --branches main",
     "format": "prettier . --write --ignore-path .gitignore",
     "lint": "eslint . --fix --ext .js,.cjs,.ts --ignore-path .gitignore",
     "test": "pnpm check && pnpm lint -- --max-warnings=0"
@@ -47,6 +48,7 @@
     "fs-extra": "^10.1.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
+    "semantic-release": "^19.0.3",
     "simple-git-hooks": "^2.8.0",
     "ts-node": "^10.8.2",
     "tslib": "^2.4.0",
