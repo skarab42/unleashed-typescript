@@ -23,14 +23,21 @@ export function build(): void {
   const typescript: Patch = { version: '', path: '' };
   let unleashed: Patch = { version: '', path: '' };
 
-  const upgradeFlag = process.argv.includes('--upgrade');
+  const unpatchFlag = process.argv.includes('--unpatch');
+  const forcePatchFlag = process.argv.includes('--force-patch');
 
   const unleashedDir = resolve(__dirname, '../unleashed-typescript');
   const unleashedJSON = resolve(unleashedDir, 'unleashed-typescript.json');
 
   // Clean build
-  if (upgradeFlag) {
+  if (unpatchFlag || forcePatchFlag) {
+    info('Unpatch unleashed-typescript.');
     removeSync(unleashedDir);
+
+    if (unpatchFlag) {
+      info('Done!');
+      process.exit(0);
+    }
   }
 
   // Try to find the local typescript package
@@ -43,7 +50,7 @@ export function build(): void {
   }
 
   // Test if we already have a patched version.
-  if (!upgradeFlag && existsSync(unleashedDir)) {
+  if (!forcePatchFlag && existsSync(unleashedDir)) {
     try {
       unleashed = readJsonSync(unleashedJSON) as Patch;
     } catch (_err) {
@@ -53,7 +60,7 @@ export function build(): void {
     }
   }
 
-  if (!upgradeFlag && unleashed.version) {
+  if (!forcePatchFlag && unleashed.version) {
     const message = `Already build from typescript@${unleashed.version}.`;
 
     if (typescript.version === unleashed.version) {
@@ -71,7 +78,7 @@ export function build(): void {
   info(`Found typescript@${typescript.version} at ${typescript.path}`);
   info(`Copy typescript@${typescript.version} to ${unleashedDir}`);
 
-  copySync(typescript.path, unleashedDir, { overwrite: upgradeFlag });
+  copySync(typescript.path, unleashedDir, { overwrite: forcePatchFlag });
   writeJSONSync(unleashedJSON, typescript);
 
   // Apply all rules

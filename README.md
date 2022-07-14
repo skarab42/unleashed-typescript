@@ -37,11 +37,14 @@ import ts from 'unleashed-typescript';
 
 # CLI
 
+With no arguments `unleashed-typescript` patches your current version of typescript **if it is not already patched**. If you want to sync your version after an update you can use the `--force-patch` option.
+
 ```bash
 Usage: unleashed-typescript [options]
 
 Options:
-  --upgrade   Upgrade the unleashed version from your current version.
+  --unpatch       Revert the patch (useful before a build/publish).
+  --force-patch   Force patch from your current typescript version.
 ```
 
 # Alternatives
