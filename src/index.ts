@@ -1,6 +1,15 @@
 /* eslint-disable no-console */
 
-import { copySync, existsSync, readFileSync, readJsonSync, removeSync, writeFileSync, writeJSONSync } from 'fs-extra';
+import {
+  copySync,
+  existsSync,
+  outputFileSync,
+  readFileSync,
+  readJsonSync,
+  removeSync,
+  writeFileSync,
+  writeJSONSync,
+} from 'fs-extra';
 import { dirname, resolve } from 'path';
 
 import type { Patch } from './types';
@@ -29,12 +38,19 @@ export function build(): void {
   const unleashedDir = resolve(__dirname, '../unleashed-typescript');
   const unleashedJSON = resolve(unleashedDir, 'unleashed-typescript.json');
 
+  const unleashedDTS = resolve(unleashedDir, 'typescript.d.ts');
+  const unleashedJS = resolve(unleashedDir, 'typescript.js');
+
   // Clean build
   if (unpatchFlag || forcePatchFlag) {
     info('Unpatch unleashed-typescript.');
     removeSync(unleashedDir);
 
     if (unpatchFlag) {
+      outputFileSync(unleashedDTS, 'export {}');
+      outputFileSync(unleashedJS, 'export default {}');
+      outputFileSync(unleashedJSON, JSON.stringify(unleashed));
+
       info('Done!');
       process.exit(0);
     }
