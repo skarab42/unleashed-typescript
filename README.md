@@ -2,11 +2,11 @@
 
 TypeScript with exposed internal definitions and some private methods for type checking.
 
-# How does it work?
+## How does it work?
 
 When you install the package, it will look for your local version of TypeScript. It will then make a copy of your version in its own location, apply the patches and re-export the patched version. Then you can import the patched version and enjoy your unleashed version of TypeScript while keeping your original version intact.
 
-# What does it add/remove?
+## What does it add/remove?
 
 1. Removes all `@internal` tags which allows you to access internal types, classes, properties and methods with their declarations.
 
@@ -26,8 +26,6 @@ When you install the package, it will look for your local version of TypeScript.
 ```ts
 pnpm add -D typescript unleashed-typescript
 ```
-
-# Usage
 
 ```ts
 import ts from 'unleashed-typescript';
@@ -59,10 +57,6 @@ Options:
 ## Expose TypeChecker methods
 
 - [tsd-typescript](https://github.com/SamVerschueren/tsd-typescript) TypeScript with some extras for type-checking.
-
-# TypeScript ~~god~~ strict mode
-
-It is strongly recommended to activate the [strict](https://www.typescriptlang.org/tsconfig#strict) mode of TypeScript which will activate all checking behaviours that results in stronger guarantees of the program's correctness.
 
 # Contributing 💜
 
