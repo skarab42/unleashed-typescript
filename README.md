@@ -38,7 +38,7 @@ import ts from 'unleashed-typescript';
 With no arguments `unleashed-typescript` patches your current version of typescript **if it is not already patched**. If you want to sync your version after an update you can use the `--force-patch` option.
 
 ```bash
-Usage: unleashed-typescript [options]
+Usage: pnpm unleashed-typescript [options]
 
 Options:
   --unpatch       Revert the patch (useful before a build/publish).
