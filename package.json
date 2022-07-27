@@ -33,11 +33,13 @@
     "postinstall": "node ./bin/index.js",
     "unpatch": "unleashed-typescript --unpatch",
     "semantic-release": "semantic-release --branches main",
-    "format": "prettier . --write --ignore-path .gitignore",
+    "format": "prettier **/* --write --cache --ignore-unknown",
     "lint": "eslint ./src --fix --ext .js,.cjs,.ts --ignore-path .gitignore",
     "test": "pnpm check && pnpm lint -- --max-warnings=0"
   },
+  "prettier": "@skarab/prettier-config",
   "devDependencies": {
+    "@skarab/prettier-config": "^1.2.2",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^18.0.3",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
