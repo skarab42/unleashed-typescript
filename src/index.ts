@@ -10,7 +10,7 @@ import {
   writeFileSync,
   writeJSONSync,
 } from 'fs-extra';
-import { dirname, resolve } from 'node:path';
+import { resolve } from 'node:path';
 
 import type { Patch } from './types';
 import { rules } from './rules';
@@ -34,7 +34,7 @@ export function build(): void {
   const unpatchFlag = process.argv.includes('--unpatch');
   const forcePatchFlag = process.argv.includes('--force-patch');
 
-  const unleashedDirectory = resolve(__dirname, '../unleashed-typescript');
+  const unleashedDirectory = resolve(process.cwd(), 'node_modules/unleashed-typescript');
   const unleashedJSON = resolve(unleashedDirectory, 'unleashed-typescript.json');
 
   const unleashedDTS = resolve(unleashedDirectory, 'typescript.d.ts');
@@ -57,9 +57,8 @@ export function build(): void {
 
   // Try to find the local typescript package
   try {
-    typescript.path = dirname(require.resolve('typescript'));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    typescript.version = require('typescript').version as string;
+    typescript.path = resolve(process.cwd(), 'node_modules/typescript');
+    typescript.version = (readJsonSync(resolve(typescript.path, 'package.json')) as { version: string }).version;
   } catch {
     error('typescript package does not seem to be installed.');
   }
