@@ -51,6 +51,8 @@ export function build(): void {
   const unleashedDTS = resolve(unleashedDirectory, 'typescript.d.ts');
   const unleashedJS = resolve(unleashedDirectory, 'typescript.js');
 
+  info(`unleashed-typescript found at ${unleashedDirectory}`);
+
   // Clean build
   if (unpatchFlag || forcePatchFlag) {
     info('Unpatch unleashed-typescript.');
