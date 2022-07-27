@@ -46,6 +46,19 @@ export const rules: Rule[] = [
           patchEndComment,
         ].join('\n        '),
       },
+      {
+        description: 'Export ts.Diagnostics type',
+        pattern: 'export = ts;',
+        value: [
+          patchStartComment,
+          'declare namespace ts {',
+          '    const Diagnostics: Record<string, Diagnostic>;',
+          '}',
+          patchEndComment,
+          '',
+          'export = ts;',
+        ].join('\n'),
+      },
     ],
   },
 ];
