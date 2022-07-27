@@ -22,8 +22,9 @@
   },
   "files": [
     "bin",
+    "lib",
     "build",
-    "lib"
+    "unleashed-typescript"
   ],
   "scripts": {
     "build": "tsup",
