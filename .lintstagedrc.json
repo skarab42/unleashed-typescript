@@ -1,4 +1,4 @@
 {
-  "**/*.{js,cjs,ts}": ["eslint --fix --max-warnings=0 --ignore-path .gitignore"],
-  "**/*": ["prettier --write --cache --ignore-unknown"]
+  "**/*": ["prettier --write --cache --ignore-unknown"],
+  "src/**/*": ["eslint --fix --max-warnings=0", "prettier --write --cache --ignore-unknown"]
 }

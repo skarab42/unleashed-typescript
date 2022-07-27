@@ -1,5 +1,5 @@
+/* eslint-disable unicorn/prefer-module */
 /* eslint-disable no-console */
-
 import {
   copySync,
   existsSync,
@@ -10,14 +10,13 @@ import {
   writeFileSync,
   writeJSONSync,
 } from 'fs-extra';
-import { dirname, resolve } from 'path';
+import { dirname, resolve } from 'node:path';
 
 import type { Patch } from './types';
 import { rules } from './rules';
 
 function error(message: string): never {
-  console.error(`ERROR: ${message}`);
-  process.exit(1);
+  throw new Error(message);
 }
 
 function warning(message: string): void {
@@ -35,16 +34,16 @@ export function build(): void {
   const unpatchFlag = process.argv.includes('--unpatch');
   const forcePatchFlag = process.argv.includes('--force-patch');
 
-  const unleashedDir = resolve(__dirname, '../unleashed-typescript');
-  const unleashedJSON = resolve(unleashedDir, 'unleashed-typescript.json');
+  const unleashedDirectory = resolve(__dirname, '../unleashed-typescript');
+  const unleashedJSON = resolve(unleashedDirectory, 'unleashed-typescript.json');
 
-  const unleashedDTS = resolve(unleashedDir, 'typescript.d.ts');
-  const unleashedJS = resolve(unleashedDir, 'typescript.js');
+  const unleashedDTS = resolve(unleashedDirectory, 'typescript.d.ts');
+  const unleashedJS = resolve(unleashedDirectory, 'typescript.js');
 
   // Clean build
   if (unpatchFlag || forcePatchFlag) {
     info('Unpatch unleashed-typescript.');
-    removeSync(unleashedDir);
+    removeSync(unleashedDirectory);
 
     if (unpatchFlag) {
       outputFileSync(unleashedDTS, 'export {}');
@@ -52,24 +51,24 @@ export function build(): void {
       outputFileSync(unleashedJSON, JSON.stringify(unleashed));
 
       info('Done!');
-      process.exit(0);
+      return;
     }
   }
 
   // Try to find the local typescript package
   try {
     typescript.path = dirname(require.resolve('typescript'));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     typescript.version = require('typescript').version as string;
-  } catch (_err) {
+  } catch {
     error('typescript package does not seem to be installed.');
   }
 
   // Test if we already have a patched version.
-  if (!forcePatchFlag && existsSync(unleashedDir)) {
+  if (!forcePatchFlag && existsSync(unleashedDirectory)) {
     try {
       unleashed = readJsonSync(unleashedJSON) as Patch;
-    } catch (_err) {
+    } catch {
       error(
         'A patched version has been found but a problem occurred during loading of the configuration. Please create a fresh build with the --upgrade flag.',
       );
@@ -87,22 +86,22 @@ export function build(): void {
       );
     }
 
-    process.exit(0);
+    return;
   }
 
   // Copy the original typescript lib directory contents and store the version and path
   info(`Found typescript@${typescript.version} at ${typescript.path}`);
-  info(`Copy typescript@${typescript.version} to ${unleashedDir}`);
+  info(`Copy typescript@${typescript.version} to ${unleashedDirectory}`);
 
-  copySync(typescript.path, unleashedDir, { overwrite: forcePatchFlag });
+  copySync(typescript.path, unleashedDirectory, { overwrite: forcePatchFlag });
   writeJSONSync(unleashedJSON, typescript);
 
   // Apply all rules
-  rules.forEach((rule) => {
-    const filePath = resolve(unleashedDir, rule.file);
+  for (const rule of rules) {
+    const filePath = resolve(unleashedDirectory, rule.file);
     let fileContent = readFileSync(filePath, 'utf8');
 
-    rule.replace.forEach((replace) => {
+    for (const replace of rule.replace) {
       info(replace.description);
       try {
         // TODO: test if it match before replace to ensure that the patch is still applicable?
@@ -111,10 +110,10 @@ export function build(): void {
         warning('An error occurred during the application of this rule, please report the following issue.');
         warning((error as Error).message);
       }
-    });
+    }
 
     writeFileSync(filePath, fileContent);
-  });
+  }
 
   info('Done!');
 }

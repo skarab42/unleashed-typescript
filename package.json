@@ -15,10 +15,10 @@
   "funding": "https://github.com/sponsors/skarab42",
   "license": "MIT",
   "private": false,
-  "main": "./lib/index.js",
+  "main": "./lib/index.cjs",
   "types": "./lib/index.d.ts",
   "bin": {
-    "unleashed-typescript": "./bin/index.js"
+    "unleashed-typescript": "./bin/index.cjs"
   },
   "files": [
     "bin",
@@ -30,32 +30,28 @@
     "check": "tsc --noEmit",
     "dev": "ts-node src/index.ts",
     "prepare": "npx simple-git-hooks",
-    "postinstall": "node ./bin/index.js",
-    "unpatch": "unleashed-typescript --unpatch",
+    "postinstall": "node ./bin/index.cjs",
+    "unpatch": "node ./bin/index.cjs --unpatch",
     "semantic-release": "semantic-release --branches main",
     "format": "prettier **/* --write --cache --ignore-unknown",
-    "lint": "eslint ./src --fix --ext .js,.cjs,.ts --ignore-path .gitignore",
-    "test": "pnpm check && pnpm lint -- --max-warnings=0"
+    "lint": "eslint src --fix --max-warnings=0",
+    "test": "pnpm check && pnpm lint"
   },
   "prettier": "@skarab/prettier-config",
   "devDependencies": {
+    "@skarab/eslint-config": "^1.0.2",
     "@skarab/prettier-config": "^1.2.2",
     "@types/fs-extra": "^9.0.13",
-    "@types/node": "^18.0.3",
-    "@typescript-eslint/eslint-plugin": "^5.30.5",
-    "@typescript-eslint/parser": "^5.30.5",
-    "eslint": "^8.19.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-unicorn": "^43.0.1",
+    "@types/node": "^18.6.1",
+    "eslint": "^8.20.0",
     "fs-extra": "^10.1.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "semantic-release": "^19.0.3",
     "simple-git-hooks": "^2.8.0",
-    "ts-node": "^10.8.2",
+    "ts-node": "^10.9.1",
     "tslib": "^2.4.0",
-    "tsup": "^6.1.3",
+    "tsup": "^6.2.0",
     "typescript": "^4.7.4"
   },
   "peerDependencies": {
