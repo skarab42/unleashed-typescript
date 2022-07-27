@@ -31,6 +31,7 @@
     "dev": "ts-node src/index.ts",
     "prepare": "npx simple-git-hooks",
     "postinstall": "node ./bin/index.js",
+    "unpatch": "unleashed-typescript --unpatch",
     "semantic-release": "semantic-release --branches main",
     "format": "prettier . --write --ignore-path .gitignore",
     "lint": "eslint ./src --fix --ext .js,.cjs,.ts --ignore-path .gitignore",
