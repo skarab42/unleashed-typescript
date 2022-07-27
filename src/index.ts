@@ -97,7 +97,7 @@ export function build(): void {
   info(`Found typescript@${typescript.version} at ${typescript.path}`);
   info(`Copy typescript@${typescript.version} to ${unleashedDirectory}`);
 
-  copySync(typescript.path, unleashedDirectory, { overwrite: forcePatchFlag });
+  copySync(typescript.path, unleashedDirectory, { overwrite: true });
   writeJSONSync(unleashedJSON, typescript);
 
   // Apply all rules
