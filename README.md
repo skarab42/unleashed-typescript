@@ -13,13 +13,33 @@ When you install the package, it will look for your local version of TypeScript.
 2. Export some very useful private methods from the `TypeChecker`:
 
    ```ts
-   isTypeSubtypeOf(source: Type, target: Type): boolean;
-   isTypeIdenticalTo(source: Type, target: Type): boolean;
-   isTypeDerivedFrom(source: Type, target: Type): boolean;
-   isTypeAssignableTo(source: Type, target: Type): boolean;
-   isTypeComparableTo(source: Type, target: Type): boolean;
-   areTypesComparable(source: Type, target: Type): boolean;
+   function isTypeSubtypeOf(source: Type, target: Type): boolean;
+   function isTypeIdenticalTo(source: Type, target: Type): boolean;
+   function isTypeDerivedFrom(source: Type, target: Type): boolean;
+   function isTypeAssignableTo(source: Type, target: Type): boolean;
+   function isTypeComparableTo(source: Type, target: Type): boolean;
+   function areTypesComparable(source: Type, target: Type): boolean;
    ```
+
+   <details>
+    <summary>And many other things...</summary>
+
+   ```
+   interface OptionsNameMap;
+
+   function getOptionsNameMap(): OptionsNameMap;
+
+   interface CommandLineOptionOfCustomType;
+   interface CommandLineOptionOfStringType;
+   interface CommandLineOptionOfNumberType;
+   interface CommandLineOptionOfBooleanType;
+   interface TsConfigOnlyOption;
+   interface CommandLineOptionOfListType;
+
+   type CommandLineOption;
+   ```
+
+   </details>
 
 # Installation
 
