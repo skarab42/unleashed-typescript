@@ -1,0 +1,69 @@
+declare namespace ts {
+  interface CommandLineOptionBase {
+      name: string;
+      type: "string" | "number" | "boolean" | "object" | "list" | ESMap<string, number | string>;    // a value of a primitive type, or an object literal mapping named values to actual values
+      isFilePath?: boolean;                                   // True if option value is a path or fileName
+      shortName?: string;                                     // A short mnemonic for convenience - for instance, 'h' can be used in place of 'help'
+      description?: DiagnosticMessage;                        // The message describing what the command line switch does.
+      defaultValueDescription?: string | number | boolean | DiagnosticMessage;   // The message describing what the dafault value is. string type is prepared for fixed chosen like "false" which do not need I18n.
+      paramType?: DiagnosticMessage;                          // The name to be used for a non-boolean option's parameter
+      isTSConfigOnly?: boolean;                               // True if option can only be specified via tsconfig.json file
+      isCommandLineOnly?: boolean;
+      showInSimplifiedHelpView?: boolean;
+      category?: DiagnosticMessage;
+      strictFlag?: true;                                      // true if the option is one of the flag under strict
+      affectsSourceFile?: true;                               // true if we should recreate SourceFiles after this option changes
+      affectsModuleResolution?: true;                         // currently same effect as `affectsSourceFile`
+      affectsBindDiagnostics?: true;                          // true if this affects binding (currently same effect as `affectsSourceFile`)
+      affectsSemanticDiagnostics?: true;                      // true if option affects semantic diagnostics
+      affectsEmit?: true;                                     // true if the options affects emit
+      affectsProgramStructure?: true;                         // true if program should be reconstructed from root files if option changes and does not affect module resolution as affectsModuleResolution indirectly means program needs to reconstructed
+      transpileOptionValue?: boolean | undefined;             // If set this means that the option should be set to this value when transpiling
+      extraValidation?: (value: CompilerOptionsValue) => [DiagnosticMessage, ...string[]] | undefined; // Additional validation to be performed for the value to be valid
+  }
+
+  interface CommandLineOptionOfStringType extends CommandLineOptionBase {
+      type: "string";
+      defaultValueDescription?: string | undefined | DiagnosticMessage;
+  }
+
+  interface CommandLineOptionOfNumberType extends CommandLineOptionBase {
+      type: "number";
+      defaultValueDescription: number | undefined | DiagnosticMessage;
+  }
+
+  interface CommandLineOptionOfBooleanType extends CommandLineOptionBase {
+      type: "boolean";
+      defaultValueDescription: boolean | undefined | DiagnosticMessage;
+  }
+
+  interface CommandLineOptionOfCustomType extends CommandLineOptionBase {
+      type: ESMap<string, number | string>;  // an object literal mapping named values to actual values
+      defaultValueDescription: number | string | undefined | DiagnosticMessage;
+  }
+
+  interface AlternateModeDiagnostics {
+      diagnostic: DiagnosticMessage;
+      getOptionsNameMap: () => OptionsNameMap;
+  }
+
+  interface DidYouMeanOptionsDiagnostics {
+      alternateMode?: AlternateModeDiagnostics;
+      optionDeclarations: CommandLineOption[];
+      unknownOptionDiagnostic: DiagnosticMessage,
+      unknownDidYouMeanDiagnostic: DiagnosticMessage,
+  }
+
+  interface TsConfigOnlyOption extends CommandLineOptionBase {
+      type: "object";
+      elementOptions?: ESMap<string, CommandLineOption>;
+      extraKeyDiagnostics?: DidYouMeanOptionsDiagnostics;
+  }
+
+  interface CommandLineOptionOfListType extends CommandLineOptionBase {
+      type: "list";
+      element: CommandLineOptionOfCustomType | CommandLineOptionOfStringType | CommandLineOptionOfNumberType | CommandLineOptionOfBooleanType | TsConfigOnlyOption;
+  }
+
+  type CommandLineOption = CommandLineOptionOfCustomType | CommandLineOptionOfStringType | CommandLineOptionOfNumberType | CommandLineOptionOfBooleanType | TsConfigOnlyOption | CommandLineOptionOfListType;
+}

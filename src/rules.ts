@@ -1,7 +1,16 @@
+/* eslint-disable unicorn/prefer-module */
+import { readFileSync } from 'fs-extra';
+import { resolve } from 'node:path';
 import type { Rule } from './types';
 
 const patchStartComment = '// The following lines have been added by unleashed-typescript';
 const patchEndComment = '// End of unleashed-typescript additions';
+
+const fixturesPath = resolve(__dirname, '../fixtures');
+
+function readFixture(name: string): string {
+  return readFileSync(resolve(fixturesPath, `../fixtures/${name}.txt`), 'utf8').trim();
+}
 
 export const rules: Rule[] = [
   {
@@ -58,6 +67,20 @@ export const rules: Rule[] = [
           '',
           'export = ts;',
         ].join('\n'),
+      },
+      {
+        description: 'Export ts.CommandLineOption type',
+        pattern: 'export = ts;',
+        value: [patchStartComment, readFixture('export-command-line-option'), patchEndComment, '', 'export = ts;'].join(
+          '\n',
+        ),
+      },
+      {
+        description: 'Export ts.OptionsNameMap type',
+        pattern: 'export = ts;',
+        value: [patchStartComment, readFixture('export-option-name-map'), patchEndComment, '', 'export = ts;'].join(
+          '\n',
+        ),
       },
     ],
   },

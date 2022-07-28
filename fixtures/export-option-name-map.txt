@@ -1,0 +1,8 @@
+declare namespace ts {
+  function getOptionsNameMap(): OptionsNameMap;
+  
+  interface OptionsNameMap {
+      optionsNameMap: ESMap<string, CommandLineOption>;
+      shortOptionNames: ESMap<string, string>;
+  }
+}
