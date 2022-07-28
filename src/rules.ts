@@ -52,7 +52,7 @@ export const rules: Rule[] = [
         value: [
           patchStartComment,
           'declare namespace ts {',
-          '    const Diagnostics: Record<string, Diagnostic>;',
+          '    const Diagnostics: Record<string, DiagnosticMessage>;',
           '}',
           patchEndComment,
           '',
